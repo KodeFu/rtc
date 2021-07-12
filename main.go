@@ -3,11 +3,13 @@ package main
 import (
 	"fmt"
 
-	"github.com/KodeFu/rtc/features"
+	"sample.com/rtc/tuples"
 )
 
 func main() {
 	fmt.Println("hello ray!")
 
-	fmt.Println("5 + 3 = ", features.Add(5, 3))
+	fmt.Println("5 + 3 = ", tuples.Add(5, 3))
+
+	tuples.TestAll()
 }
