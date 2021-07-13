@@ -11,5 +11,4 @@ func main() {
 
 	fmt.Println("5 + 3 = ", tuples.Add(5, 3))
 
-	tuples.TestAll()
 }

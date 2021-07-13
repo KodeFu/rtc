@@ -5,10 +5,12 @@ type Tuple struct {
 }
 
 func Point(x, y, z float64) Tuple {
+	// point when w is 1
 	return Tuple{x, y, z, 1}
 }
 
 func Vector(x, y, z float64) Tuple {
+	// vector when w is 0
 	return Tuple{x, y, z, 0}
 }
 
