@@ -1,21 +1,17 @@
 package tuples
 
+import "log"
+
 type Tuple struct {
 	X, Y, Z, W float64
 }
 
 func Point(x, y, z float64) Tuple {
-	// point when w is 1
 	return Tuple{x, y, z, 1}
 }
 
 func Vector(x, y, z float64) Tuple {
-	// vector when w is 0
 	return Tuple{x, y, z, 0}
-}
-
-func Add(a, b int) (c int) {
-	return a + b
 }
 
 func IsPoint(t Tuple) bool {
@@ -32,4 +28,38 @@ func IsVector(t Tuple) bool {
 	}
 
 	return false
+}
+
+func (t Tuple) Add(a Tuple) Tuple {
+	if IsPoint(t) && IsPoint(a) {
+		log.Panic("adding two points")
+	}
+
+	var r Tuple
+	r.X = t.X + a.X
+	r.Y = t.Y + a.Y
+	r.Z = t.Z + a.Z
+	r.W = t.W + a.W
+
+	return r
+}
+
+func (t Tuple) Sub(a Tuple) Tuple {
+	var r Tuple
+	r.X = t.X - a.X
+	r.Y = t.Y - a.Y
+	r.Z = t.Z - a.Z
+	r.W = t.W - a.W
+
+	return r
+}
+
+func (t Tuple) Negate() Tuple {
+	var r Tuple
+	r.X = -t.X
+	r.Y = -t.Y
+	r.Z = -t.Z
+	r.W = -t.W
+
+	return r
 }

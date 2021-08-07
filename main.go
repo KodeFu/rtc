@@ -9,6 +9,11 @@ import (
 func main() {
 	fmt.Println("hello ray!")
 
-	fmt.Println("5 + 3 = ", tuples.Add(5, 3))
+	a := tuples.Tuple{X: 3, Y: 4, Z: 2, W: 1}
+	b := tuples.Tuple{X: 3, Y: 4, Z: 2, W: 0}
+	c := a.Add(b)
 
+	fmt.Println(c)
+
+	fmt.Println(a.Add(b))
 }
