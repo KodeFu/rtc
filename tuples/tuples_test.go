@@ -62,6 +62,17 @@ func TestIsVector(testing *testing.T) {
 	}
 }
 
+func TestAdd(testing *testing.T) {
+	var t1 = Tuple{3, -2, 5, 1}
+	var t2 = Tuple{-2, 3, 1, 0}
+
+	r := t1.Add(t2)
+
+	if r.X != 1 || r.Y != 1 || r.Z != 6 || r.W != 1 {
+		testing.Errorf("unexpected result %v", r)
+	}
+}
+
 func TestSubTwoPoints(testing *testing.T) {
 	var p1 = Point(3, 2, 1)
 	var p2 = Point(5, 6, 7)

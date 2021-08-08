@@ -1,7 +1,6 @@
 package tuples
 
 import (
-	"log"
 	"math"
 )
 
@@ -34,10 +33,6 @@ func IsVector(t Tuple) bool {
 }
 
 func (t Tuple) Add(a Tuple) Tuple {
-	if IsPoint(t) && IsPoint(a) {
-		log.Panic("adding two points")
-	}
-
 	var r Tuple
 	r.X = t.X + a.X
 	r.Y = t.Y + a.Y
