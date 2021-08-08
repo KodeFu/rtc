@@ -16,83 +16,101 @@ func Vector(x, y, z float64) Tuple {
 	return Tuple{x, y, z, 0}
 }
 
-func IsPoint(t Tuple) bool {
-	if t.W == 1 {
+func IsPoint(a Tuple) bool {
+	if a.W == 1 {
 		return true
 	}
 
 	return false
 }
 
-func IsVector(t Tuple) bool {
-	if t.W == 0 {
+func IsVector(a Tuple) bool {
+	if a.W == 0 {
 		return true
 	}
 
 	return false
 }
 
-func (t Tuple) Add(a Tuple) Tuple {
+func (a Tuple) Add(b Tuple) Tuple {
 	var r Tuple
-	r.X = t.X + a.X
-	r.Y = t.Y + a.Y
-	r.Z = t.Z + a.Z
-	r.W = t.W + a.W
+	r.X = a.X + b.X
+	r.Y = a.Y + b.Y
+	r.Z = a.Z + b.Z
+	r.W = a.W + b.W
 
 	return r
 }
 
-func (t Tuple) Sub(a Tuple) Tuple {
+func (a Tuple) Sub(b Tuple) Tuple {
 	var r Tuple
-	r.X = t.X - a.X
-	r.Y = t.Y - a.Y
-	r.Z = t.Z - a.Z
-	r.W = t.W - a.W
+	r.X = a.X - b.X
+	r.Y = a.Y - b.Y
+	r.Z = a.Z - b.Z
+	r.W = a.W - b.W
 
 	return r
 }
 
-func (t Tuple) Negate() Tuple {
+func (a Tuple) Negate() Tuple {
 	var r Tuple
-	r.X = -t.X
-	r.Y = -t.Y
-	r.Z = -t.Z
-	r.W = -t.W
+	r.X = -a.X
+	r.Y = -a.Y
+	r.Z = -a.Z
+	r.W = -a.W
 
 	return r
 }
 
-func (t Tuple) Mult(a float64) Tuple {
+func (a Tuple) Mult(b float64) Tuple {
 	var r Tuple
-	r.X = a * t.X
-	r.Y = a * t.Y
-	r.Z = a * t.Z
-	r.W = a * t.W
+	r.X = b * a.X
+	r.Y = b * a.Y
+	r.Z = b * a.Z
+	r.W = b * a.W
 
 	return r
 }
 
-func (t Tuple) Div(a float64) Tuple {
+func (a Tuple) Div(b float64) Tuple {
 	var r Tuple
-	r.X = t.X / a
-	r.Y = t.Y / a
-	r.Z = t.Z / a
-	r.W = t.W / a
+	r.X = a.X / b
+	r.Y = a.Y / b
+	r.Z = a.Z / b
+	r.W = a.W / b
 
 	return r
 }
 
-func (t Tuple) Magnitude() float64 {
+func (a Tuple) Magnitude() float64 {
 	var r float64
-	r = math.Sqrt(math.Pow(t.X, 2) + math.Pow(t.Y, 2) + math.Pow(t.Z, 2) + math.Pow(t.W, 2))
+	r = math.Sqrt(math.Pow(a.X, 2) + math.Pow(a.Y, 2) + math.Pow(a.Z, 2) + math.Pow(a.W, 2))
 
 	return r
 }
 
-func (t Tuple) Normalize() Tuple {
+func (a Tuple) Normalize() Tuple {
 	var r Tuple
-	var mag = t.Magnitude()
-	r = Tuple{t.X / mag, t.Y / mag, t.Z / mag, t.W / mag}
+	var mag = a.Magnitude()
+	r = Tuple{a.X / mag, a.Y / mag, a.Z / mag, a.W / mag}
+
+	return r
+}
+
+func (a Tuple) Dot(b Tuple) float64 {
+	var r float64
+	r = a.X*b.X + a.Y*b.Y + a.Z*b.Z + a.W*b.W
+
+	return r
+}
+
+func (a Tuple) Cross(b Tuple) Tuple {
+	var r Tuple
+
+	r.X = a.Y*b.Z - a.Z*b.Y
+	r.Y = a.Z*b.X - a.X*b.Z
+	r.Z = a.X*b.Y - a.Y*b.X
+	r.W = 0
 
 	return r
 }

@@ -240,3 +240,36 @@ func TestNormalize2(testing *testing.T) {
 		testing.Errorf("not a vector %v", r)
 	}
 }
+
+func TestDotProduct(testing *testing.T) {
+	var a = Vector(1, 2, 3)
+	var b = Vector(2, 3, 4)
+
+	r := a.Dot(b)
+
+	if r != 20 {
+		testing.Errorf("unexpected result %v", r)
+	}
+}
+
+func TestCrossProduct1(testing *testing.T) {
+	var a = Vector(1, 2, 3)
+	var b = Vector(2, 3, 4)
+
+	r := a.Cross(b)
+
+	if r.X != -1.0 || r.Y != 2.0 || r.Z != -1.0 || !IsVector(r) {
+		testing.Errorf("unexpected result %v", r)
+	}
+}
+
+func TestCrossProduct2(testing *testing.T) {
+	var a = Vector(1, 2, 3)
+	var b = Vector(2, 3, 4)
+
+	r := b.Cross(a)
+
+	if r.X != 1.0 || r.Y != -2.0 || r.Z != 1.0 || !IsVector(r) {
+		testing.Errorf("unexpected result %v", r)
+	}
+}
