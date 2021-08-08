@@ -2,6 +2,8 @@ package tuples
 
 import (
 	"testing"
+
+	"sample.com/rtc/utils"
 )
 
 func TestTuplePoint(testing *testing.T) {
@@ -66,7 +68,7 @@ func TestSubTwoPoints(testing *testing.T) {
 
 	r := p1.Sub(p2)
 
-	if r.X != -2 && r.Y != -4 && r.Z != -6 {
+	if r.X != -2 || r.Y != -4 || r.Z != -6 {
 		testing.Errorf("unexpected result %v", r)
 	}
 
@@ -125,7 +127,105 @@ func TestNegateTuple(testing *testing.T) {
 
 	r := a.Negate()
 
-	if r.X != -1 && r.Y != 2 && r.Z != -3 && r.W != 4 {
+	if r.X != -1 || r.Y != 2 || r.Z != -3 || r.W != 4 {
 		testing.Errorf("unexpected result %v", r)
+	}
+}
+
+func TestMultScaler(testing *testing.T) {
+	var a = Tuple{1, -2, 3, -4}
+
+	r := a.Mult(3.5)
+
+	if r.X != 3.5 || r.Y != -7.0 || r.Z != 10.5 || r.W != -14.0 {
+		testing.Errorf("unexpected result %v", r)
+	}
+}
+
+func TestMultFraction(testing *testing.T) {
+	var a = Tuple{1, -2, 3, -4}
+
+	r := a.Mult(0.5)
+
+	if r.X != 0.5 || r.Y != -1.0 || r.Z != 1.5 || r.W != -2.0 {
+		testing.Errorf("unexpected result %v", r)
+	}
+}
+
+func TestDiv(testing *testing.T) {
+	var a = Tuple{1, -2, 3, -4}
+
+	r := a.Div(2)
+
+	if r.X != 0.5 || r.Y != -1.0 || r.Z != 1.5 || r.W != -2.0 {
+		testing.Errorf("unexpected result %v", r)
+	}
+}
+
+func TestMag1(testing *testing.T) {
+	var a = Vector(1, 0, 0)
+
+	r := a.Magnitude()
+
+	if r != 1 {
+		testing.Errorf("unexpected result %v", r)
+	}
+}
+
+func TestMag2(testing *testing.T) {
+	var a = Vector(0, 1, 0)
+
+	r := a.Magnitude()
+
+	if r != 1 {
+		testing.Errorf("unexpected result %v", r)
+	}
+}
+
+func TestMag3(testing *testing.T) {
+	var a = Vector(0, 0, 1)
+
+	r := a.Magnitude()
+
+	if r != 1 {
+		testing.Errorf("unexpected result %v", r)
+	}
+}
+
+func TestMag4(testing *testing.T) {
+	var a = Vector(1, 2, 3)
+
+	r := a.Magnitude()
+
+	if !utils.Equal(r, 3.7416573867739413) {
+		testing.Errorf("unexpected result %v", r)
+	}
+}
+
+func TestNormalize1(testing *testing.T) {
+	var a = Vector(4, 0, 0)
+
+	r := a.Normalize()
+
+	if r.X != 1.0 || r.Y != 0.0 || r.Z != 0.0 {
+		testing.Errorf("unexpected result %v", r)
+	}
+
+	if !IsVector(r) {
+		testing.Errorf("not a vector %v", r)
+	}
+}
+
+func TestNormalize2(testing *testing.T) {
+	var a = Vector(1, 2, 3)
+
+	r := a.Normalize()
+
+	if !utils.Equal(r.X, 0.26726) || !utils.Equal(r.Y, 0.53452) || !utils.Equal(r.Z, 0.80178) {
+		testing.Errorf("unexpected result %v", r)
+	}
+
+	if !IsVector(r) {
+		testing.Errorf("not a vector %v", r)
 	}
 }
