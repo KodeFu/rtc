@@ -36,11 +36,22 @@ func TestColorsSub(testing *testing.T) {
 	}
 }
 
+func TestColorsMultScalar(testing *testing.T) {
+	var a = Color{red: 0.2, green: 0.3, blue: 0.4}
+	var b = 2.0
+
+	r := a.Mult(b)
+
+	if r.red != 0.4 || r.green != 0.6 || !utils.Equal(r.blue, 0.8) {
+		testing.Errorf("unexpected result %v", r)
+	}
+}
+
 func TestColorsMult(testing *testing.T) {
 	var a = Color{red: 1.0, green: 0.2, blue: 0.4}
 	var b = Color{red: 0.9, green: 1.0, blue: 0.1}
 
-	r := a.Mult(b)
+	r := a.HadamardProduct(b)
 
 	if r.red != 0.9 || r.green != 0.2 || !utils.Equal(r.blue, 0.04) {
 		testing.Errorf("unexpected result %v", r)
