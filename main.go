@@ -25,27 +25,41 @@ func Tick(env Environment, proj Projectile) Projectile {
 
 func main() {
 	fmt.Println("hello ray!")
+	/*
+		a := features.Tuple{X: 3, Y: 4, Z: 2, W: 1}
+		b := features.Tuple{X: 3, Y: 4, Z: 2, W: 0}
+		c := a.Add(b)
 
-	a := features.Tuple{X: 3, Y: 4, Z: 2, W: 1}
-	b := features.Tuple{X: 3, Y: 4, Z: 2, W: 0}
-	c := a.Add(b)
+		fmt.Println(c)
 
-	fmt.Println(c)
+		fmt.Println(a.Add(b))
 
-	fmt.Println(a.Add(b))
+		p := Projectile{features.Point(0, 1, 0), features.Vector(1, 1, 0).Normalize()}
+		e := Environment{features.Vector(0, -0.1, 0), features.Vector(-0.01, 0, 0)}
 
-	p := Projectile{features.Point(0, 1, 0), features.Vector(1, 1, 0).Normalize()}
-	e := Environment{features.Vector(0, -0.1, 0), features.Vector(-0.01, 0, 0)}
+		fmt.Println("p", p)
+		fmt.Println("e", e)
 
-	fmt.Println("p", p)
-	fmt.Println("e", e)
+		newP := Tick(e, p)
+		fmt.Println("newP", newP)
+		newP = Tick(e, newP)
+		fmt.Println("newP", newP)
+		newP = Tick(e, newP)
+		fmt.Println("newP", newP)
+		newP = Tick(e, newP)
+		fmt.Println("newP", newP)
+	*/
+	var canvas = features.NewCanvas(5, 3)
+	//fmt.Println(canvas.Pixels)
+	canvas.CanvasToPPM()
+	/*
+		var matrix = features.NewMatrix(2, 4)
+		fmt.Println(matrix)
 
-	newP := Tick(e, p)
-	fmt.Println("newP", newP)
-	newP = Tick(e, newP)
-	fmt.Println("newP", newP)
-	newP = Tick(e, newP)
-	fmt.Println("newP", newP)
-	newP = Tick(e, newP)
-	fmt.Println("newP", newP)
+		matrix = features.NewMatrix(2, 3)
+		fmt.Println(matrix)
+
+		matrix = features.NewMatrix(9, 3)
+		fmt.Println(matrix)
+	*/
 }

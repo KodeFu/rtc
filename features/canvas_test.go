@@ -2,6 +2,7 @@ package features
 
 import (
 	"bufio"
+	"io/ioutil"
 	"os"
 	"testing"
 )
@@ -18,7 +19,7 @@ func TestCreate(testing *testing.T) {
 	}
 
 	for i := 0; i < c.Width; i++ {
-		for j := 0; j < c.Width; j++ {
+		for j := 0; j < c.Height; j++ {
 			if (c.PixelAt(i, j) != Color{0, 0, 0}) {
 				testing.Errorf("unexpected result %v", c)
 			}
@@ -53,12 +54,12 @@ func TestContructingPPMHeader(testing *testing.T) {
 		testing.Errorf("unexpected string %v", s1)
 	}
 
-	if s2 != "255\n" {
-		testing.Errorf("unexpected string %v", s2)
+	if s2 != "5 3\n" {
+		testing.Errorf("unexpected string %v", s3)
 	}
 
-	if s3 != "5 3\n" {
-		testing.Errorf("unexpected string %v", s3)
+	if s3 != "255\n" {
+		testing.Errorf("unexpected string %v", s2)
 	}
 
 }
@@ -86,5 +87,39 @@ func TestCanvasToPPM(testing *testing.T) {
 
 	if c.PixelAt(4, 2) != c3 {
 		testing.Errorf("unexpected pixel %v", c.PixelAt(4, 2))
+	}
+}
+
+func TestSplittingLongLines(testing *testing.T) {
+	var c = NewCanvas(10, 2)
+
+	color := Color{1.0, 0.8, 0.6}
+
+	for i := 0; i < c.Width; i++ {
+		for j := 0; j < c.Height; j++ {
+			c.WritePixel(i, j, color)
+		}
+	}
+
+	c.CanvasToPPM()
+}
+
+func TestNewLine(testing *testing.T) {
+	var c = NewCanvas(5, 3)
+
+	color := Color{0.0, 0.0, 0.0}
+
+	for i := 0; i < c.Width; i++ {
+		for j := 0; j < c.Height; j++ {
+			c.WritePixel(i, j, color)
+		}
+	}
+
+	c.CanvasToPPM()
+
+	// check for newline at the end
+	bytes, _ := ioutil.ReadFile("out.ppm")
+	if bytes[len(bytes)-1] != '\n' {
+		testing.Errorf("no newline at end %d", bytes[len(bytes)-1])
 	}
 }
