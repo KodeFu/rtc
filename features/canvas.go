@@ -16,9 +16,9 @@ func NewCanvas(width, height int) *Canvas {
 	c := Canvas{Width: width, Height: height}
 	// # of rows is the height, think y axis
 	c.Pixel = make([][]Color, height)
-	for row, _ := range c.Pixel {
+	for rowIndex := range c.Pixel {
 		// # of columns is the width, think x axis
-		c.Pixel[row] = make([]Color, width)
+		c.Pixel[rowIndex] = make([]Color, width)
 	}
 
 	return &c
@@ -43,59 +43,50 @@ func (c Canvas) CanvasToPPM() {
 	// width height
 	s := fmt.Sprintf("%d %d\n", c.Width, c.Height)
 	f.WriteString(s)
+
+	// color depth
 	f.WriteString("255\n")
 
 	// pixel data
 	var charCount int
-	for _, pixels := range c.Pixel {
-		for _, color := range pixels {
+	for _, row := range c.Pixel {
+		for _, color := range row {
+			// get the colors and create a list
 			red := utils.ScaleColor(color.red)
 			green := utils.ScaleColor(color.green)
 			blue := utils.ScaleColor(color.blue)
-			//s = fmt.Sprintf("%d %d %d", red, green, blue)
-			s = fmt.Sprintf("%d", red)
-			// character count + length of new string + space
-			if charCount+len(s)+1 < 70 {
-				if charCount > 0 {
-					f.WriteString(" ")
-				}
-				f.WriteString(s)
-				charCount += len(s) + 1
-			} else {
-				f.WriteString("\n")
-				f.WriteString(s)
-				charCount = len(s)
-			}
+			rgb := []int{red, green, blue}
 
-			s = fmt.Sprintf("%d", green)
-			// character count + length of new string + space
-			if charCount+len(s)+1 < 70 {
-				if charCount > 0 {
-					f.WriteString(" ")
-				}
-				f.WriteString(s)
-				charCount += len(s) + 1
-			} else {
-				f.WriteString("\n")
-				f.WriteString(s)
-				charCount = len(s)
-			}
+			// write color components
+			for _, component := range rgb {
+				s = fmt.Sprintf("%d", component)
+				if charCount+len(s)+1 < 70 {
+					if charCount > 0 {
+						// add space if not first component in a line
+						f.WriteString(" ")
+					}
 
-			s = fmt.Sprintf("%d", blue)
-			// character count + length of new string + space
-			if charCount+len(s)+1 < 70 {
-				if charCount > 0 {
-					f.WriteString(" ")
+					// write component
+					f.WriteString(s)
+
+					// length of string plus space
+					charCount += len(s) + 1
+				} else {
+					// write a newline
+					f.WriteString("\n")
+
+					// write the component
+					f.WriteString(s)
+
+					// length of string
+					charCount = len(s)
 				}
-				f.WriteString(s)
-				charCount += len(s) + 1
-			} else {
-				f.WriteString("\n")
-				f.WriteString(s)
-				charCount = len(s)
 			}
 		}
+		// reset character count
 		charCount = 0
+
+		// newline for a new row
 		f.WriteString("\n")
 	}
 
