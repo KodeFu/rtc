@@ -7,7 +7,7 @@ import (
 	"testing"
 )
 
-func TestCreate(testing *testing.T) {
+func TestCanvasCreate(testing *testing.T) {
 	var c = NewCanvas(10, 20)
 
 	if c.Width != 10 {
@@ -27,7 +27,7 @@ func TestCreate(testing *testing.T) {
 	}
 }
 
-func TestWritePixel(testing *testing.T) {
+func TestCanvasWritePixel(testing *testing.T) {
 	var c = NewCanvas(10, 20)
 
 	red := Color{1, 0, 0}
@@ -38,7 +38,7 @@ func TestWritePixel(testing *testing.T) {
 	}
 }
 
-func TestContructingPPMHeader(testing *testing.T) {
+func TestCanvasContructingPPMHeader(testing *testing.T) {
 	var c = NewCanvas(5, 3)
 
 	c.CanvasToPPM()
@@ -90,7 +90,7 @@ func TestCanvasToPPM(testing *testing.T) {
 	}
 }
 
-func TestSplittingLongLines(testing *testing.T) {
+func TestCanvasSplittingLongLines(testing *testing.T) {
 	var c = NewCanvas(10, 2)
 
 	color := Color{1.0, 0.8, 0.6}
@@ -104,7 +104,7 @@ func TestSplittingLongLines(testing *testing.T) {
 	c.CanvasToPPM()
 }
 
-func TestNewLine(testing *testing.T) {
+func TestCanvasNewLine(testing *testing.T) {
 	var c = NewCanvas(5, 3)
 
 	color := Color{0.0, 0.0, 0.0}

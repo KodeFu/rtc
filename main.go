@@ -62,4 +62,8 @@ func main() {
 		matrix = features.NewMatrix(9, 3)
 		fmt.Println(matrix)
 	*/
+
+	var m = features.NewMatrix(3, 4)
+	fmt.Printf("size %d, size %d", len(m.Elements), len(m.Elements[0]))
+	fmt.Printf("size %d, size %d", m.NumRows(), m.NumColumns())
 }

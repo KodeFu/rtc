@@ -1,15 +1,13 @@
 package utils
 
-import "math"
+import (
+	"math"
+)
 
-const EPSILON = 0.0001
+const EPSILON float64 = 0.0001
 
 func Equal(a, b float64) bool {
-	if math.Abs(a-b) < EPSILON {
-		return true
-	}
-
-	return false
+	return math.Abs(a-b) < EPSILON
 }
 
 func ScaleColor(a float64) int {

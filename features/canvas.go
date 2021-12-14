@@ -9,16 +9,16 @@ import (
 
 type Canvas struct {
 	Width, Height int
-	Pixel         [][]Color
+	Pixels        [][]Color
 }
 
 func NewCanvas(width, height int) *Canvas {
 	c := Canvas{Width: width, Height: height}
 	// # of rows is the height, think y axis
-	c.Pixel = make([][]Color, height)
-	for rowIndex := range c.Pixel {
+	c.Pixels = make([][]Color, height)
+	for rowIndex := range c.Pixels {
 		// # of columns is the width, think x axis
-		c.Pixel[rowIndex] = make([]Color, width)
+		c.Pixels[rowIndex] = make([]Color, width)
 	}
 
 	return &c
@@ -26,12 +26,12 @@ func NewCanvas(width, height int) *Canvas {
 
 func (c *Canvas) WritePixel(x, y int, color Color) {
 	// since we are height x width, each pixel is at y'th row, x'th column
-	c.Pixel[y][x] = color
+	c.Pixels[y][x] = color
 }
 
 func (c Canvas) PixelAt(x, y int) Color {
 	// since we are height x width, each pixel is at y'th row, x'th column
-	return c.Pixel[y][x]
+	return c.Pixels[y][x]
 }
 
 func (c Canvas) CanvasToPPM() {
@@ -49,7 +49,7 @@ func (c Canvas) CanvasToPPM() {
 
 	// pixel data
 	var charCount int
-	for _, row := range c.Pixel {
+	for _, row := range c.Pixels {
 		for _, color := range row {
 			// get the colors and create a list
 			red := utils.ScaleColor(color.red)
