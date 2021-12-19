@@ -10,16 +10,16 @@ import (
 func TestCanvasCreate(testing *testing.T) {
 	var c = NewCanvas(10, 20)
 
-	if c.Width != 10 {
-		testing.Errorf("unexpected width %v", c.Width)
+	if c.Width() != 10 {
+		testing.Errorf("unexpected width %v", c.Width())
 	}
 
-	if c.Height != 20 {
-		testing.Errorf("unexpected height %v", c.Height)
+	if c.Height() != 20 {
+		testing.Errorf("unexpected height %v", c.Height())
 	}
 
-	for i := 0; i < c.Width; i++ {
-		for j := 0; j < c.Height; j++ {
+	for i := 0; i < c.Width(); i++ {
+		for j := 0; j < c.Height(); j++ {
 			if (c.PixelAt(i, j) != Color{0, 0, 0}) {
 				testing.Errorf("unexpected result %v", c)
 			}
@@ -95,8 +95,8 @@ func TestCanvasSplittingLongLines(testing *testing.T) {
 
 	color := Color{1.0, 0.8, 0.6}
 
-	for i := 0; i < c.Width; i++ {
-		for j := 0; j < c.Height; j++ {
+	for i := 0; i < c.Width(); i++ {
+		for j := 0; j < c.Height(); j++ {
 			c.WritePixel(i, j, color)
 		}
 	}
@@ -109,8 +109,8 @@ func TestCanvasNewLine(testing *testing.T) {
 
 	color := Color{0.0, 0.0, 0.0}
 
-	for i := 0; i < c.Width; i++ {
-		for j := 0; j < c.Height; j++ {
+	for i := 0; i < c.Width(); i++ {
+		for j := 0; j < c.Height(); j++ {
 			c.WritePixel(i, j, color)
 		}
 	}

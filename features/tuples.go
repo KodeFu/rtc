@@ -2,22 +2,43 @@ package features
 
 import (
 	"math"
+
+	"sample.com/rtc/utils"
 )
 
 type Tuple struct {
-	X, Y, Z, W float64
+	Elements [4]float64
 }
 
-func Point(x, y, z float64) Tuple {
-	return Tuple{x, y, z, 1}
+func NewTuple(x, y, z, w float64) Tuple {
+	var t Tuple
+	t.Elements[0] = x
+	t.Elements[1] = y
+	t.Elements[2] = z
+	t.Elements[3] = w
+	return t
 }
 
-func Vector(x, y, z float64) Tuple {
-	return Tuple{x, y, z, 0}
+func NewPoint(x, y, z float64) Tuple {
+	var t Tuple
+	t.Elements[0] = x
+	t.Elements[1] = y
+	t.Elements[2] = z
+	t.Elements[3] = 1
+	return t
+}
+
+func NewVector(x, y, z float64) Tuple {
+	var t Tuple
+	t.Elements[0] = x
+	t.Elements[1] = y
+	t.Elements[2] = z
+	t.Elements[3] = 0
+	return t
 }
 
 func IsPoint(a Tuple) bool {
-	if a.W == 1 {
+	if a.Elements[3] == 1 {
 		return true
 	}
 
@@ -25,7 +46,7 @@ func IsPoint(a Tuple) bool {
 }
 
 func IsVector(a Tuple) bool {
-	if a.W == 0 {
+	if a.Elements[3] == 0 {
 		return true
 	}
 
@@ -34,57 +55,52 @@ func IsVector(a Tuple) bool {
 
 func (a Tuple) Add(b Tuple) Tuple {
 	var r Tuple
-	r.X = a.X + b.X
-	r.Y = a.Y + b.Y
-	r.Z = a.Z + b.Z
-	r.W = a.W + b.W
-
+	r.Elements[0] = a.Elements[0] + b.Elements[0]
+	r.Elements[1] = a.Elements[1] + b.Elements[1]
+	r.Elements[2] = a.Elements[2] + b.Elements[2]
+	r.Elements[3] = a.Elements[3] + b.Elements[3]
 	return r
 }
 
 func (a Tuple) Sub(b Tuple) Tuple {
 	var r Tuple
-	r.X = a.X - b.X
-	r.Y = a.Y - b.Y
-	r.Z = a.Z - b.Z
-	r.W = a.W - b.W
-
+	r.Elements[0] = a.Elements[0] - b.Elements[0]
+	r.Elements[1] = a.Elements[1] - b.Elements[1]
+	r.Elements[2] = a.Elements[2] - b.Elements[2]
+	r.Elements[3] = a.Elements[3] - b.Elements[3]
 	return r
 }
 
 func (a Tuple) Negate() Tuple {
 	var r Tuple
-	r.X = -a.X
-	r.Y = -a.Y
-	r.Z = -a.Z
-	r.W = -a.W
-
+	r.Elements[0] = -a.Elements[0]
+	r.Elements[1] = -a.Elements[1]
+	r.Elements[2] = -a.Elements[2]
+	r.Elements[3] = -a.Elements[3]
 	return r
 }
 
 func (a Tuple) Mult(b float64) Tuple {
 	var r Tuple
-	r.X = b * a.X
-	r.Y = b * a.Y
-	r.Z = b * a.Z
-	r.W = b * a.W
-
+	r.Elements[0] = b * a.Elements[0]
+	r.Elements[1] = b * a.Elements[1]
+	r.Elements[2] = b * a.Elements[2]
+	r.Elements[3] = b * a.Elements[3]
 	return r
 }
 
 func (a Tuple) Div(b float64) Tuple {
 	var r Tuple
-	r.X = a.X / b
-	r.Y = a.Y / b
-	r.Z = a.Z / b
-	r.W = a.W / b
-
+	r.Elements[0] = a.Elements[0] / b
+	r.Elements[1] = a.Elements[1] / b
+	r.Elements[2] = a.Elements[2] / b
+	r.Elements[3] = a.Elements[3] / b
 	return r
 }
 
 func (a Tuple) Magnitude() float64 {
 	var r float64
-	r = math.Sqrt(math.Pow(a.X, 2) + math.Pow(a.Y, 2) + math.Pow(a.Z, 2) + math.Pow(a.W, 2))
+	r = math.Sqrt(math.Pow(a.Elements[0], 2) + math.Pow(a.Elements[1], 2) + math.Pow(a.Elements[2], 2) + math.Pow(a.Elements[3], 2))
 
 	return r
 }
@@ -92,14 +108,17 @@ func (a Tuple) Magnitude() float64 {
 func (a Tuple) Normalize() Tuple {
 	var r Tuple
 	var mag = a.Magnitude()
-	r = Tuple{a.X / mag, a.Y / mag, a.Z / mag, a.W / mag}
+	r.Elements[0] = a.Elements[0] / mag
+	r.Elements[1] = a.Elements[1] / mag
+	r.Elements[2] = a.Elements[2] / mag
+	r.Elements[3] = a.Elements[3] / mag
 
 	return r
 }
 
 func (a Tuple) Dot(b Tuple) float64 {
 	var r float64
-	r = a.X*b.X + a.Y*b.Y + a.Z*b.Z + a.W*b.W
+	r = a.Elements[0]*b.Elements[0] + a.Elements[1]*b.Elements[1] + a.Elements[2]*b.Elements[2] + a.Elements[3]*b.Elements[3]
 
 	return r
 }
@@ -107,10 +126,20 @@ func (a Tuple) Dot(b Tuple) float64 {
 func (a Tuple) Cross(b Tuple) Tuple {
 	var r Tuple
 
-	r.X = a.Y*b.Z - a.Z*b.Y
-	r.Y = a.Z*b.X - a.X*b.Z
-	r.Z = a.X*b.Y - a.Y*b.X
-	r.W = 0
+	r.Elements[0] = a.Elements[1]*b.Elements[2] - a.Elements[2]*b.Elements[1]
+	r.Elements[1] = a.Elements[2]*b.Elements[0] - a.Elements[0]*b.Elements[2]
+	r.Elements[2] = a.Elements[0]*b.Elements[1] - a.Elements[1]*b.Elements[0]
+	r.Elements[3] = 0
 
 	return r
+}
+
+func (a Tuple) Equals(b Tuple) bool {
+	for i := 0; i < 4; i++ {
+		if !utils.Equal(a.Elements[i], b.Elements[i]) {
+			return false
+		}
+	}
+
+	return true
 }

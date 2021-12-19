@@ -4,6 +4,15 @@ type Color struct {
 	red, green, blue float64
 }
 
+func NewColor(r, g, b float64) Color {
+	var c Color
+	c.red = r
+	c.green = g
+	c.blue = b
+
+	return c
+}
+
 func (a Color) Add(b Color) Color {
 	var r Color
 	r.red = a.red + b.red

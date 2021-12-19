@@ -7,7 +7,7 @@ import (
 )
 
 func TestColors(testing *testing.T) {
-	var c = Color{red: -0.5, green: 0.4, blue: 1.7}
+	var c = NewColor(-0.5, 0.4, 1.7)
 
 	if c.red != -0.5 || c.green != 0.4 || c.blue != 1.7 {
 		testing.Errorf("unexpected result %v", c)
@@ -15,8 +15,8 @@ func TestColors(testing *testing.T) {
 }
 
 func TestColorsAdd(testing *testing.T) {
-	var a = Color{red: 0.9, green: 0.6, blue: 0.75}
-	var b = Color{red: 0.7, green: 0.1, blue: 0.25}
+	var a = NewColor(0.9, 0.6, 0.75)
+	var b = NewColor(0.7, 0.1, 0.25)
 
 	r := a.Add(b)
 
@@ -26,8 +26,8 @@ func TestColorsAdd(testing *testing.T) {
 }
 
 func TestColorsSub(testing *testing.T) {
-	var a = Color{red: 0.9, green: 0.6, blue: 0.75}
-	var b = Color{red: 0.7, green: 0.1, blue: 0.25}
+	var a = NewColor(0.9, 0.6, 0.75)
+	var b = NewColor(0.7, 0.1, 0.25)
 
 	r := a.Sub(b)
 
@@ -37,7 +37,7 @@ func TestColorsSub(testing *testing.T) {
 }
 
 func TestColorsMultScalar(testing *testing.T) {
-	var a = Color{red: 0.2, green: 0.3, blue: 0.4}
+	var a = NewColor(0.2, 0.3, 0.4)
 	var b = 2.0
 
 	r := a.Mult(b)
@@ -48,8 +48,8 @@ func TestColorsMultScalar(testing *testing.T) {
 }
 
 func TestColorsMult(testing *testing.T) {
-	var a = Color{red: 1.0, green: 0.2, blue: 0.4}
-	var b = Color{red: 0.9, green: 1.0, blue: 0.1}
+	var a = NewColor(1.0, 0.2, 0.4)
+	var b = NewColor(0.9, 1.0, 0.1)
 
 	r := a.HadamardProduct(b)
 

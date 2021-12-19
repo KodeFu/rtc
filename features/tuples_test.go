@@ -7,9 +7,13 @@ import (
 )
 
 func TestTuplePoint(testing *testing.T) {
-	var t = Tuple{X: 4.3, Y: -4.2, Z: 3.1, W: 1.0}
+	var t Tuple
+	t.Elements[0] = 4.3
+	t.Elements[1] = -4.2
+	t.Elements[2] = 3.1
+	t.Elements[3] = 1.0
 
-	if t.X != 4.3 || t.Y != -4.2 || t.Z != 3.1 || t.W != 1.0 {
+	if t.Elements[0] != 4.3 || t.Elements[1] != -4.2 || t.Elements[2] != 3.1 || t.Elements[3] != 1.0 {
 		testing.Errorf("unexpected result %v", t)
 	}
 	if !IsPoint(t) {
@@ -21,9 +25,13 @@ func TestTuplePoint(testing *testing.T) {
 }
 
 func TestTupleVector(testing *testing.T) {
-	var t = Tuple{X: 4.3, Y: -4.2, Z: 3.1, W: 0.0}
+	var t Tuple
+	t.Elements[0] = 4.3
+	t.Elements[1] = -4.2
+	t.Elements[2] = 3.1
+	t.Elements[3] = 0.0
 
-	if t.X != 4.3 || t.Y != -4.2 || t.Z != 3.1 || t.W != 0.0 {
+	if t.Elements[0] != 4.3 || t.Elements[1] != -4.2 || t.Elements[2] != 3.1 || t.Elements[3] != 0.0 {
 		testing.Errorf("unexpected result %v", t)
 	}
 	if !IsVector(t) {
@@ -35,9 +43,9 @@ func TestTupleVector(testing *testing.T) {
 }
 
 func TestIsPoint(testing *testing.T) {
-	var t = Point(4, -4, 3)
+	var t = NewPoint(4, -4, 3)
 
-	if t.X != 4 || t.Y != -4 || t.Z != 3 || t.W != 1.0 {
+	if t.Elements[0] != 4 || t.Elements[1] != -4 || t.Elements[2] != 3 || t.Elements[3] != 1.0 {
 		testing.Errorf("unexpected result %v", t)
 	}
 	if !IsPoint(t) {
@@ -49,9 +57,9 @@ func TestIsPoint(testing *testing.T) {
 }
 
 func TestIsVector(testing *testing.T) {
-	var t = Vector(4, -4, 3)
+	var t = NewVector(4, -4, 3)
 
-	if t.X != 4 || t.Y != -4 || t.Z != 3 || t.W != 0 {
+	if t.Elements[0] != 4 || t.Elements[1] != -4 || t.Elements[2] != 3 || t.Elements[3] != 0 {
 		testing.Errorf("unexpected result %v", t)
 	}
 	if !IsVector(t) {
@@ -63,23 +71,23 @@ func TestIsVector(testing *testing.T) {
 }
 
 func TestAdd(testing *testing.T) {
-	var t1 = Tuple{3, -2, 5, 1}
-	var t2 = Tuple{-2, 3, 1, 0}
+	var t1 = NewTuple(3, -2, 5, 1)
+	var t2 = NewTuple(-2, 3, 1, 0)
 
 	r := t1.Add(t2)
 
-	if r.X != 1 || r.Y != 1 || r.Z != 6 || r.W != 1 {
+	if r.Elements[0] != 1 || r.Elements[1] != 1 || r.Elements[2] != 6 || r.Elements[3] != 1 {
 		testing.Errorf("unexpected result %v", r)
 	}
 }
 
 func TestSubTwoPoints(testing *testing.T) {
-	var p1 = Point(3, 2, 1)
-	var p2 = Point(5, 6, 7)
+	var p1 = NewPoint(3, 2, 1)
+	var p2 = NewPoint(5, 6, 7)
 
 	r := p1.Sub(p2)
 
-	if r.X != -2 || r.Y != -4 || r.Z != -6 {
+	if r.Elements[0] != -2 || r.Elements[1] != -4 || r.Elements[2] != -6 {
 		testing.Errorf("unexpected result %v", r)
 	}
 
@@ -89,12 +97,12 @@ func TestSubTwoPoints(testing *testing.T) {
 }
 
 func TestSubVectorFromPoint(testing *testing.T) {
-	var p = Point(3, 2, 1)
-	var v = Vector(5, 6, 7)
+	var p = NewPoint(3, 2, 1)
+	var v = NewVector(5, 6, 7)
 
 	r := p.Sub(v)
 
-	if r.X != -2 && r.Y != -4 && r.Z != -6 {
+	if r.Elements[0] != -2 && r.Elements[1] != -4 && r.Elements[2] != -6 {
 		testing.Errorf("unexpected result %v", r)
 	}
 
@@ -104,12 +112,12 @@ func TestSubVectorFromPoint(testing *testing.T) {
 }
 
 func TestSubTwoVectors(testing *testing.T) {
-	var v1 = Vector(3, 2, 1)
-	var v2 = Vector(5, 6, 7)
+	var v1 = NewVector(3, 2, 1)
+	var v2 = NewVector(5, 6, 7)
 
 	r := v1.Sub(v2)
 
-	if r.X != -2 && r.Y != -4 && r.Z != -6 {
+	if r.Elements[0] != -2 && r.Elements[1] != -4 && r.Elements[2] != -6 {
 		testing.Errorf("unexpected result %v", r)
 	}
 
@@ -119,12 +127,12 @@ func TestSubTwoVectors(testing *testing.T) {
 }
 
 func TestSubVectorAndZeroVector(testing *testing.T) {
-	var z = Vector(0, 0, 0)
-	var v = Vector(1, -2, 3)
+	var z = NewVector(0, 0, 0)
+	var v = NewVector(1, -2, 3)
 
 	r := z.Sub(v)
 
-	if r.X != -1 && r.Y != 2 && r.Z != -3 {
+	if r.Elements[0] != -1 && r.Elements[1] != 2 && r.Elements[2] != -3 {
 		testing.Errorf("unexpected result %v", r)
 	}
 
@@ -134,47 +142,47 @@ func TestSubVectorAndZeroVector(testing *testing.T) {
 }
 
 func TestNegateTuple(testing *testing.T) {
-	var a = Tuple{1, -2, 3, -4}
+	var a = NewTuple(1, -2, 3, -4)
 
 	r := a.Negate()
 
-	if r.X != -1 || r.Y != 2 || r.Z != -3 || r.W != 4 {
+	if r.Elements[0] != -1 || r.Elements[1] != 2 || r.Elements[2] != -3 || r.Elements[3] != 4 {
 		testing.Errorf("unexpected result %v", r)
 	}
 }
 
 func TestMultScaler(testing *testing.T) {
-	var a = Tuple{1, -2, 3, -4}
+	var a = NewTuple(1, -2, 3, -4)
 
 	r := a.Mult(3.5)
 
-	if r.X != 3.5 || r.Y != -7.0 || r.Z != 10.5 || r.W != -14.0 {
+	if r.Elements[0] != 3.5 || r.Elements[1] != -7.0 || r.Elements[2] != 10.5 || r.Elements[3] != -14.0 {
 		testing.Errorf("unexpected result %v", r)
 	}
 }
 
 func TestMultFraction(testing *testing.T) {
-	var a = Tuple{1, -2, 3, -4}
+	var a = NewTuple(1, -2, 3, -4)
 
 	r := a.Mult(0.5)
 
-	if r.X != 0.5 || r.Y != -1.0 || r.Z != 1.5 || r.W != -2.0 {
+	if r.Elements[0] != 0.5 || r.Elements[1] != -1.0 || r.Elements[2] != 1.5 || r.Elements[3] != -2.0 {
 		testing.Errorf("unexpected result %v", r)
 	}
 }
 
 func TestDiv(testing *testing.T) {
-	var a = Tuple{1, -2, 3, -4}
+	var a = NewTuple(1, -2, 3, -4)
 
 	r := a.Div(2)
 
-	if r.X != 0.5 || r.Y != -1.0 || r.Z != 1.5 || r.W != -2.0 {
+	if r.Elements[0] != 0.5 || r.Elements[1] != -1.0 || r.Elements[2] != 1.5 || r.Elements[3] != -2.0 {
 		testing.Errorf("unexpected result %v", r)
 	}
 }
 
 func TestMag1(testing *testing.T) {
-	var a = Vector(1, 0, 0)
+	var a = NewVector(1, 0, 0)
 
 	r := a.Magnitude()
 
@@ -184,7 +192,7 @@ func TestMag1(testing *testing.T) {
 }
 
 func TestMag2(testing *testing.T) {
-	var a = Vector(0, 1, 0)
+	var a = NewVector(0, 1, 0)
 
 	r := a.Magnitude()
 
@@ -194,7 +202,7 @@ func TestMag2(testing *testing.T) {
 }
 
 func TestMag3(testing *testing.T) {
-	var a = Vector(0, 0, 1)
+	var a = NewVector(0, 0, 1)
 
 	r := a.Magnitude()
 
@@ -204,7 +212,7 @@ func TestMag3(testing *testing.T) {
 }
 
 func TestMag4(testing *testing.T) {
-	var a = Vector(1, 2, 3)
+	var a = NewVector(1, 2, 3)
 
 	r := a.Magnitude()
 
@@ -214,11 +222,11 @@ func TestMag4(testing *testing.T) {
 }
 
 func TestNormalize1(testing *testing.T) {
-	var a = Vector(4, 0, 0)
+	var a = NewVector(4, 0, 0)
 
 	r := a.Normalize()
 
-	if r.X != 1.0 || r.Y != 0.0 || r.Z != 0.0 {
+	if r.Elements[0] != 1.0 || r.Elements[1] != 0.0 || r.Elements[2] != 0.0 {
 		testing.Errorf("unexpected result %v", r)
 	}
 
@@ -228,11 +236,11 @@ func TestNormalize1(testing *testing.T) {
 }
 
 func TestNormalize2(testing *testing.T) {
-	var a = Vector(1, 2, 3)
+	var a = NewVector(1, 2, 3)
 
 	r := a.Normalize()
 
-	if !utils.Equal(r.X, 0.26726) || !utils.Equal(r.Y, 0.53452) || !utils.Equal(r.Z, 0.80178) {
+	if !utils.Equal(r.Elements[0], 0.26726) || !utils.Equal(r.Elements[1], 0.53452) || !utils.Equal(r.Elements[2], 0.80178) {
 		testing.Errorf("unexpected result %v", r)
 	}
 
@@ -242,8 +250,8 @@ func TestNormalize2(testing *testing.T) {
 }
 
 func TestDotProduct(testing *testing.T) {
-	var a = Vector(1, 2, 3)
-	var b = Vector(2, 3, 4)
+	var a = NewVector(1, 2, 3)
+	var b = NewVector(2, 3, 4)
 
 	r := a.Dot(b)
 
@@ -253,23 +261,59 @@ func TestDotProduct(testing *testing.T) {
 }
 
 func TestCrossProduct1(testing *testing.T) {
-	var a = Vector(1, 2, 3)
-	var b = Vector(2, 3, 4)
+	var a = NewVector(1, 2, 3)
+	var b = NewVector(2, 3, 4)
 
 	r := a.Cross(b)
 
-	if r.X != -1.0 || r.Y != 2.0 || r.Z != -1.0 || !IsVector(r) {
+	if r.Elements[0] != -1.0 || r.Elements[1] != 2.0 || r.Elements[2] != -1.0 || !IsVector(r) {
 		testing.Errorf("unexpected result %v", r)
 	}
 }
 
 func TestCrossProduct2(testing *testing.T) {
-	var a = Vector(1, 2, 3)
-	var b = Vector(2, 3, 4)
+	var a = NewVector(1, 2, 3)
+	var b = NewVector(2, 3, 4)
 
 	r := b.Cross(a)
 
-	if r.X != 1.0 || r.Y != -2.0 || r.Z != 1.0 || !IsVector(r) {
+	if r.Elements[0] != 1.0 || r.Elements[1] != -2.0 || r.Elements[2] != 1.0 || !IsVector(r) {
 		testing.Errorf("unexpected result %v", r)
+	}
+}
+
+func TestEqual(testing *testing.T) {
+	var a = NewTuple(1, 2, 3, 1)
+	var b = NewTuple(1, 2, 3, 1)
+
+	if !a.Equals(b) {
+		testing.Errorf("unexpected result %v %v", a, b)
+	}
+}
+
+func TestNotEqual(testing *testing.T) {
+	var a = NewTuple(1, 2, 3, 1)
+	var b = NewTuple(0, 2, 3, 1)
+
+	if a.Equals(b) {
+		testing.Errorf("unexpected result %v %v", a, b)
+	}
+
+	b = NewTuple(1, 3, 3, 1)
+
+	if a.Equals(b) {
+		testing.Errorf("unexpected result %v %v", a, b)
+	}
+
+	b = NewTuple(1, 2, 4, 1)
+
+	if a.Equals(b) {
+		testing.Errorf("unexpected result %v %v", a, b)
+	}
+
+	b = NewTuple(1, 2, 3, 4)
+
+	if a.Equals(b) {
+		testing.Errorf("unexpected result %v %v", a, b)
 	}
 }

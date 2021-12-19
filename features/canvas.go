@@ -8,12 +8,12 @@ import (
 )
 
 type Canvas struct {
-	Width, Height int
-	Pixels        [][]Color
+	Pixels [][]Color
 }
 
 func NewCanvas(width, height int) *Canvas {
-	c := Canvas{Width: width, Height: height}
+	var c Canvas
+
 	// # of rows is the height, think y axis
 	c.Pixels = make([][]Color, height)
 	for rowIndex := range c.Pixels {
@@ -41,7 +41,7 @@ func (c Canvas) CanvasToPPM() {
 	f.WriteString("P3\n")
 
 	// width height
-	s := fmt.Sprintf("%d %d\n", c.Width, c.Height)
+	s := fmt.Sprintf("%d %d\n", c.Width(), c.Height())
 	f.WriteString(s)
 
 	// color depth
@@ -91,4 +91,14 @@ func (c Canvas) CanvasToPPM() {
 	}
 
 	f.Close()
+}
+
+func (a Canvas) Height() int {
+	// rows
+	return len(a.Pixels)
+}
+
+func (a Canvas) Width() int {
+	// columns
+	return len(a.Pixels[0])
 }
