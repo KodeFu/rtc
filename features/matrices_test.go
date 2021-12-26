@@ -132,3 +132,55 @@ func TestMatricesMultiplyByTuple(testing *testing.T) {
 		testing.Errorf("unexpected result %v %v", expected, result)
 	}
 }
+
+func TestMatricesMultiplyByIdentity(testing *testing.T) {
+	var m = NewMatrix4x4([4][4]float64{{1, 2, 3, 4}, {1, 2, 4, 8}, {2, 4, 8, 16}, {4, 8, 16, 32}})
+	result := m.Multiply(Identity4x4())
+
+	if !m.Equals(result) {
+		testing.Errorf("unexpected result %v %v", m, result)
+	}
+}
+
+func TestMatricesIdentityMutiplyByTuple(testing *testing.T) {
+	var m = Identity4x4()
+	var a = NewTuple(1, 2, 3, 1)
+	result := m.MultiplyByTuple(a)
+
+	if !a.Equals(result) {
+		testing.Errorf("unexpected result %v %v", a, result)
+	}
+}
+
+func TestMatricesTranspose4x4(testing *testing.T) {
+	var m = NewMatrix4x4([4][4]float64{{0, 9, 3, 0}, {9, 8, 0, 8}, {1, 8, 5, 3}, {0, 0, 5, 8}})
+	result := m.Transpose()
+
+	var expected = NewMatrix4x4([4][4]float64{{0, 9, 1, 0}, {9, 8, 8, 0}, {3, 0, 5, 5}, {0, 8, 3, 8}})
+
+	if !expected.Equals(result) {
+		testing.Errorf("unexpected result %v %v", expected, result)
+	}
+}
+
+func TestMatricesTranspose3x3(testing *testing.T) {
+	var m = NewMatrix3x3([3][3]float64{{0, 9, 3}, {9, 8, 0}, {1, 8, 5}})
+	result := m.Transpose()
+
+	var expected = NewMatrix3x3([3][3]float64{{0, 9, 1}, {9, 8, 8}, {3, 0, 5}})
+
+	if !expected.Equals(result) {
+		testing.Errorf("unexpected result %v %v", expected, result)
+	}
+}
+
+func TestMatricesTransposeIdentity(testing *testing.T) {
+	var m = Identity4x4()
+	result := m.Transpose()
+
+	var expected = NewMatrix4x4([4][4]float64{{1, 0, 0, 0}, {0, 1, 0, 0}, {0, 0, 1, 0}, {0, 0, 0, 1}})
+
+	if !expected.Equals(result) {
+		testing.Errorf("unexpected result %v %v", expected, result)
+	}
+}

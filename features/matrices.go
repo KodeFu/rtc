@@ -52,6 +52,11 @@ func NewMatrix2x2(elements [2][2]float64) Matrix {
 	return m
 }
 
+func Identity4x4() Matrix {
+	m := NewMatrix4x4([4][4]float64{{1, 0, 0, 0}, {0, 1, 0, 0}, {0, 0, 1, 0}, {0, 0, 0, 1}})
+	return m
+}
+
 func (a Matrix) Equals(b Matrix) bool {
 	if a.NumRows() != b.NumRows() || a.NumCols() != b.NumCols() {
 		return false
@@ -98,4 +103,15 @@ func (a Matrix) MultiplyByTuple(b Tuple) Tuple {
 	}
 
 	return total
+}
+
+func (a Matrix) Transpose() Matrix {
+	var t = NewMatrix(a.NumRows(), a.NumCols())
+	for i, row := range a.Elements {
+		for j := range row {
+			t.Elements[j][i] = a.Elements[i][j]
+		}
+	}
+
+	return t
 }
