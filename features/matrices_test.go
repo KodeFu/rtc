@@ -2,6 +2,8 @@ package features
 
 import (
 	"testing"
+
+	"sample.com/rtc/utils"
 )
 
 func TestMatricesCreate4x4(testing *testing.T) {
@@ -182,5 +184,83 @@ func TestMatricesTransposeIdentity(testing *testing.T) {
 
 	if !expected.Equals(result) {
 		testing.Errorf("unexpected result %v %v", expected, result)
+	}
+}
+
+func TestMatricesDeterminant(testing *testing.T) {
+	m := NewMatrix2x2([2][2]float64{{1, 5}, {-3, 2}})
+	result := m.Determinant2x2()
+
+	var expected = 17.0
+
+	if !utils.Equal(result, expected) {
+		testing.Errorf("unexpected result %v %v", expected, result)
+	}
+}
+
+func TestMatricesSubmatrix3x3(testing *testing.T) {
+	m := NewMatrix3x3([3][3]float64{{1, 5, 0}, {-3, 2, 7}, {0, 6, -3}})
+	result := m.Submatrix(0, 2)
+
+	var expected = NewMatrix2x2([2][2]float64{{-3, 2}, {0, 6}})
+
+	if !result.Equals(expected) {
+		testing.Errorf("unexpected result %v %v", expected, result)
+	}
+}
+
+func TestMatricesSubmatrix4x4(testing *testing.T) {
+	m := NewMatrix4x4([4][4]float64{{-6, 1, 1, 6}, {-8, 5, 8, 6}, {-1, 0, 8, 2}, {-7, 1, -1, 1}})
+	result := m.Submatrix(2, 1)
+
+	var expected = NewMatrix3x3([3][3]float64{{-6, 1, 6}, {-8, 8, 6}, {-7, -1, 1}})
+
+	if !result.Equals(expected) {
+		testing.Errorf("unexpected result %v %v", expected, result)
+	}
+}
+
+func TestMatricesMinor(testing *testing.T) {
+	m := NewMatrix3x3([3][3]float64{{3, 5, 0}, {2, -1, -7}, {6, -1, 5}})
+	result := m.Minor(1, 0)
+
+	var expected = 25.0
+
+	if !utils.Equal(result, expected) {
+		testing.Errorf("unexpected result %v %v", expected, result)
+	}
+}
+
+func TestMatricesCofactor1(testing *testing.T) {
+	m := NewMatrix3x3([3][3]float64{{3, 5, 0}, {2, -1, -7}, {6, -1, 5}})
+	resultMinor := m.Minor(0, 0)
+	resultCofactor := m.Cofactor(0, 0)
+
+	var expectedMinor = -12.0
+	var expectedCofactor = -12.0
+
+	if !utils.Equal(resultMinor, expectedMinor) {
+		testing.Errorf("unexpected result %v %v", expectedMinor, resultMinor)
+	}
+
+	if !utils.Equal(resultCofactor, expectedCofactor) {
+		testing.Errorf("unexpected result %v %v", expectedCofactor, resultCofactor)
+	}
+}
+
+func TestMatricesCofactor2(testing *testing.T) {
+	m := NewMatrix3x3([3][3]float64{{3, 5, 0}, {2, -1, -7}, {6, -1, 5}})
+	resultMinor := m.Minor(1, 0)
+	resultCofactor := m.Cofactor(1, 0)
+
+	var expectedMinor = 25.0
+	var expectedCofactor = -25.0
+
+	if !utils.Equal(resultMinor, expectedMinor) {
+		testing.Errorf("unexpected result %v %v", expectedMinor, resultMinor)
+	}
+
+	if !utils.Equal(resultCofactor, expectedCofactor) {
+		testing.Errorf("unexpected result %v %v", expectedCofactor, resultCofactor)
 	}
 }

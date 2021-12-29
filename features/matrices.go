@@ -115,3 +115,51 @@ func (a Matrix) Transpose() Matrix {
 
 	return t
 }
+
+func (a Matrix) Determinant2x2() float64 {
+	return a.Elements[0][0]*a.Elements[1][1] - a.Elements[0][1]*a.Elements[1][0]
+}
+
+func (a Matrix) Submatrix(row, col int) Matrix {
+	// remove row phase
+	var rowPhase = NewMatrix(a.NumRows()-1, a.NumCols())
+	rowPhaseCount := 0
+	for i, rowElement := range a.Elements {
+		for j := range rowElement {
+			if i != row {
+				rowPhase.Elements[rowPhaseCount][j] = a.Elements[i][j]
+			}
+		}
+		if i != row {
+			rowPhaseCount++
+		}
+	}
+
+	// remove column phase
+	var colPhase = NewMatrix(a.NumRows()-1, a.NumCols()-1)
+	for i, rowElement := range rowPhase.Elements {
+		colPhaseCount := 0
+		for j := range rowElement {
+			if j != col {
+				colPhase.Elements[i][colPhaseCount] = rowPhase.Elements[i][j]
+				colPhaseCount++
+			}
+		}
+	}
+
+	return colPhase
+}
+
+func (a Matrix) Minor(row, col int) float64 {
+	return a.Submatrix(row, col).Determinant2x2()
+}
+
+func (a Matrix) Cofactor(row, col int) float64 {
+	minor := a.Minor(row, col)
+
+	if (row+col)%2 != 0 {
+		return -minor
+	}
+
+	return minor
+}
