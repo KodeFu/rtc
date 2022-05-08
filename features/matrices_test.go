@@ -189,7 +189,7 @@ func TestMatricesTransposeIdentity(testing *testing.T) {
 
 func TestMatricesDeterminant(testing *testing.T) {
 	m := NewMatrix2x2([2][2]float64{{1, 5}, {-3, 2}})
-	result := m.Determinant2x2()
+	result := m.Determinant()
 
 	var expected = 17.0
 
@@ -262,5 +262,69 @@ func TestMatricesCofactor2(testing *testing.T) {
 
 	if !utils.Equal(resultCofactor, expectedCofactor) {
 		testing.Errorf("unexpected result %v %v", expectedCofactor, resultCofactor)
+	}
+}
+
+func TestMatricesDeterminant3x3(testing *testing.T) {
+	m := NewMatrix3x3([3][3]float64{{1, 2, 6}, {-5, 8, -4}, {2, 6, 4}})
+	resultCofactor00 := m.Cofactor(0, 0)
+	resultCofactor01 := m.Cofactor(0, 1)
+	resultCofactor02 := m.Cofactor(0, 2)
+	resultDeterminant := m.Determinant()
+
+	var expectedCofactor00 = 56.0
+	var expectedCofactor01 = 12.0
+	var expectedCofactor02 = -46.0
+	var expectedDeterminant = -196.0
+
+	if !utils.Equal(resultCofactor00, expectedCofactor00) {
+		testing.Errorf("unexpected result %v %v", resultCofactor00, expectedCofactor00)
+	}
+
+	if !utils.Equal(resultCofactor01, expectedCofactor01) {
+		testing.Errorf("unexpected result %v %v", resultCofactor01, expectedCofactor01)
+	}
+
+	if !utils.Equal(resultCofactor02, expectedCofactor02) {
+		testing.Errorf("unexpected result %v %v", resultCofactor02, expectedCofactor02)
+	}
+
+	if !utils.Equal(resultDeterminant, expectedDeterminant) {
+		testing.Errorf("unexpected result %v %v", resultDeterminant, expectedDeterminant)
+	}
+}
+
+func TestMatricesDeterminant4x4(testing *testing.T) {
+	m := NewMatrix4x4([4][4]float64{{-2, -8, 3, 5}, {-3, 1, 7, 3}, {1, 2, -9, 6}, {-6, 7, 7, -9}})
+	resultCofactor00 := m.Cofactor(0, 0)
+	resultCofactor01 := m.Cofactor(0, 1)
+	resultCofactor02 := m.Cofactor(0, 2)
+	resultCofactor03 := m.Cofactor(0, 3)
+	resultDeterminant := m.Determinant()
+
+	var expectedCofactor00 = 690.0
+	var expectedCofactor01 = 447.0
+	var expectedCofactor02 = 210.0
+	var expectedCofactor03 = 51.0
+	var expectedDeterminant = -4071.0
+
+	if !utils.Equal(resultCofactor00, expectedCofactor00) {
+		testing.Errorf("unexpected result %v %v", resultCofactor00, expectedCofactor00)
+	}
+
+	if !utils.Equal(resultCofactor01, expectedCofactor01) {
+		testing.Errorf("unexpected result %v %v", resultCofactor01, expectedCofactor01)
+	}
+
+	if !utils.Equal(resultCofactor02, expectedCofactor02) {
+		testing.Errorf("unexpected result %v %v", resultCofactor02, expectedCofactor02)
+	}
+
+	if !utils.Equal(resultCofactor03, expectedCofactor03) {
+		testing.Errorf("unexpected result %v %v", resultCofactor03, expectedCofactor03)
+	}
+
+	if !utils.Equal(resultDeterminant, expectedDeterminant) {
+		testing.Errorf("unexpected result %v %v", resultDeterminant, expectedDeterminant)
 	}
 }
