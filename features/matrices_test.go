@@ -328,3 +328,93 @@ func TestMatricesDeterminant4x4(testing *testing.T) {
 		testing.Errorf("unexpected result %v %v", resultDeterminant, expectedDeterminant)
 	}
 }
+
+func TestMatricesInvertable(testing *testing.T) {
+	m := NewMatrix4x4([4][4]float64{{6, 4, 4, 4}, {5, 5, 7, 6}, {4, -9, 3, -7}, {9, 1, 7, -6}})
+
+	if !m.IsInvertible() {
+		testing.Errorf("not invertible, but should be invertable")
+	}
+}
+
+func TestMatricesNotInvertable(testing *testing.T) {
+	m := NewMatrix4x4([4][4]float64{{-4, 2, -2, -3}, {9, 6, 2, 6}, {0, -5, 1, -5}, {0, 0, 0, 0}})
+
+	if m.IsInvertible() {
+		testing.Errorf("invertible, but should not be invertable")
+	}
+}
+
+func TestMatricesInverse(testing *testing.T) {
+	a := NewMatrix4x4([4][4]float64{{-5, 2, 6, -8}, {1, -5, 1, 8}, {7, 7, -6, -7}, {1, -3, 7, 4}})
+	expectedB := NewMatrix4x4([4][4]float64{{0.21805, 0.45113, 0.24060, -0.04511}, {-0.80827, -1.45677, -0.44361, 0.52068}, {-0.07895, -0.22368, -0.05263, 0.19737}, {-0.52256, -0.81391, -0.30075, 0.30639}})
+	b := a.Inverse()
+
+	// checks
+	resultDeterminant := a.Determinant()
+	var expectedDeterminant = 532.0
+
+	resultCofactor23 := a.Cofactor(2, 3)
+	expectedCofactor23 := -160.0
+
+	expectedB32 := -160.0 / 532.0
+
+	resultCofactor32 := a.Cofactor(3, 2)
+	expectedCofactor32 := 105.0
+
+	expectedB23 := 105.0 / 532.0
+
+	if !utils.Equal(resultDeterminant, expectedDeterminant) {
+		testing.Errorf("unexpected result %v %v", resultDeterminant, expectedDeterminant)
+	}
+
+	if !utils.Equal(resultCofactor23, expectedCofactor23) {
+		testing.Errorf("unexpected result %v %v", resultCofactor23, expectedCofactor23)
+	}
+
+	if !utils.Equal(b.Elements[3][2], expectedB32) {
+		testing.Errorf("unexpected result %v %v", b.Elements[3][2], expectedB32)
+	}
+
+	if !utils.Equal(resultCofactor32, expectedCofactor32) {
+		testing.Errorf("unexpected result %v %v", resultCofactor32, expectedCofactor32)
+	}
+
+	if !utils.Equal(b.Elements[2][3], expectedB23) {
+		testing.Errorf("unexpected result %v %v", b.Elements[2][3], expectedB23)
+	}
+
+	if !b.Equals(expectedB) {
+		testing.Errorf("unexpected result %v %v", b, expectedB)
+	}
+}
+
+func TestMatricesInverse2(testing *testing.T) {
+	a := NewMatrix4x4([4][4]float64{{8, -5, 9, 2}, {7, 5, 6, 1}, {-6, 0, 9, 6}, {-3, 0, -9, -4}})
+	expectedB := NewMatrix4x4([4][4]float64{{-0.15385, -0.15385, -0.28205, -0.53846}, {-0.07692, 0.12308, 0.02564, 0.03077}, {0.35897, 0.35897, 0.43590, 0.92308}, {-0.69231, -0.69231, -0.76923, -1.92308}})
+	b := a.Inverse()
+
+	if !b.Equals(expectedB) {
+		testing.Errorf("unexpected result %v %v", b, expectedB)
+	}
+}
+
+func TestMatricesInverse3(testing *testing.T) {
+	a := NewMatrix4x4([4][4]float64{{9, 3, 0, 9}, {-5, -2, -6, -3}, {-4, 9, 6, 4}, {-7, 6, 6, 2}})
+	expectedB := NewMatrix4x4([4][4]float64{{-0.04074, -0.07778, 0.14444, -0.22222}, {-0.07778, 0.03333, 0.36667, -0.33333}, {-0.02901, -0.14630, -0.10926, 0.12963}, {0.17778, 0.06667, -0.26667, 0.33333}})
+	b := a.Inverse()
+
+	if !b.Equals(expectedB) {
+		testing.Errorf("unexpected result %v %v", b, expectedB)
+	}
+}
+
+func TestMatricesInverse4(testing *testing.T) {
+	a := NewMatrix4x4([4][4]float64{{3, -9, 7, 3}, {3, -8, 2, -9}, {-4, 4, 4, 1}, {-6, 5, -1, 1}})
+	b := NewMatrix4x4([4][4]float64{{8, 2, 2, 2}, {3, -1, 7, 0}, {7, 0, 5, 4}, {6, -2, 0, 5}})
+	c := a.Multiply(b)
+
+	if !a.Equals(c.Multiply(b.Inverse())) {
+		testing.Errorf("unexpected result %v %v", a, c.Multiply(b.Inverse()))
+	}
+}

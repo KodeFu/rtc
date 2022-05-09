@@ -173,3 +173,32 @@ func (a Matrix) Cofactor(row, col int) float64 {
 
 	return minor
 }
+
+func (a Matrix) IsInvertible() bool {
+	if utils.Equal(a.Determinant(), 0.0) {
+		return false
+	} else {
+		return true
+	}
+}
+
+func (a Matrix) Inverse() Matrix {
+	if !a.IsInvertible() {
+		panic("matrix is not invertible")
+	}
+
+	c := 0.0
+	m2 := NewMatrix(a.NumRows(), a.NumCols())
+
+	for row := 0; row < a.NumRows(); row++ {
+		for col := 0; col < a.NumCols(); col++ {
+			c = a.Cofactor(row, col)
+
+			// note that "col, row" here, instead of "row, col",
+			// accomplishes the transpose operation!
+			m2.Elements[col][row] = c / a.Determinant()
+		}
+	}
+
+	return m2
+}
