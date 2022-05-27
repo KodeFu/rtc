@@ -5,8 +5,8 @@ import (
 )
 
 func TestTranslationMultiply(testing *testing.T) {
-	var transform = Translation(5.0, -3.0, 2.0)
-	var p = NewPoint(-3.0, 4.0, 5.0)
+	var transform = Translation(5, -3, 2)
+	var p = NewPoint(-3, 4, 5)
 
 	var result = transform.MultiplyByTuple(p)
 
@@ -18,9 +18,9 @@ func TestTranslationMultiply(testing *testing.T) {
 }
 
 func TestTranslationMultiplyInverse(testing *testing.T) {
-	var transform = Translation(5.0, -3.0, 2.0)
+	var transform = Translation(5, -3, 2)
 	var inv = transform.Inverse()
-	var p = NewPoint(-3.0, 4.0, 5.0)
+	var p = NewPoint(-3, 4, 5)
 
 	var result = inv.MultiplyByTuple(p)
 
@@ -32,12 +32,52 @@ func TestTranslationMultiplyInverse(testing *testing.T) {
 }
 
 func TestTranslationVectors(testing *testing.T) {
-	var transform = Translation(5.0, -3.0, 2.0)
-	var v = NewVector(-3.0, 4.0, 5.0)
+	var transform = Translation(5, -3, 2)
+	var v = NewVector(-3, 4, 5)
 
 	var result = transform.MultiplyByTuple(v)
 
 	if !result.Equals(v) {
 		testing.Errorf("unexpected result %v %v", result, v)
+	}
+}
+
+func TestScalingPoint(testing *testing.T) {
+	var transform = Scaling(2, 3, 4)
+	var p = NewPoint(-4, 6, 8)
+
+	var result = transform.MultiplyByTuple(p)
+
+	var expected = NewPoint(-8, 18, 32)
+
+	if !result.Equals(expected) {
+		testing.Errorf("unexpected result %v %v", result, expected)
+	}
+}
+
+func TestScalingVector(testing *testing.T) {
+	var transform = Scaling(2, 3, 4)
+	var v = NewVector(-4, 6, 8)
+
+	var result = transform.MultiplyByTuple(v)
+
+	var expected = NewVector(-8, 18, 32)
+
+	if !result.Equals(expected) {
+		testing.Errorf("unexpected result %v %v", result, expected)
+	}
+}
+
+func TestScalingMultiplyInverse(testing *testing.T) {
+	var transform = Scaling(2, 3, 4)
+	var inv = transform.Inverse()
+	var v = NewVector(-4, 6, 8)
+
+	var result = inv.MultiplyByTuple(v)
+
+	var expected = NewVector(-2, 2, 2)
+
+	if !result.Equals(expected) {
+		testing.Errorf("unexpected result %v %v", result, expected)
 	}
 }

@@ -5,3 +5,9 @@ func Translation(x, y, z float64) Matrix {
 
 	return m
 }
+
+func Scaling(x, y, z float64) Matrix {
+	m := NewMatrix4x4([4][4]float64{{x, 0, 0, 0}, {0, y, 0, 0}, {0, 0, z, 0}, {0, 0, 0, 1}})
+
+	return m
+}
