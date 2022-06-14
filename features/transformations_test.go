@@ -83,6 +83,19 @@ func TestScalingMultiplyInverse(testing *testing.T) {
 	}
 }
 
+func TestReflectionPoint(testing *testing.T) {
+	var transform = Scaling(-1, 1, 1)
+	var p = NewPoint(2, 3, 4)
+
+	var result = transform.MultiplyByTuple(p)
+
+	var expected = NewPoint(-2, 3, 4)
+
+	if !result.Equals(expected) {
+		testing.Errorf("unexpected result %v %v", result, expected)
+	}
+}
+
 func TestRotatingPointAroundXAxis(testing *testing.T) {
 	var p = NewPoint(0, 1, 0)
 	var half_quarter = Rotation_X(math.Pi / 4)
